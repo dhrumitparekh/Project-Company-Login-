@@ -1,7 +1,8 @@
 const express = require('express');
 const Data= express();
-const port = 8080;
+const HTTP_PORT = 8080;
 const EmployeeData =require("./modules/employeeData");
+Data.use(express.static('public')); 
 
 EmployeeData.Initialize()
 Data.get ('/',(req,res)=>{
@@ -36,6 +37,29 @@ EmployeeData.getEmployeeByExp(EmployeeExp).then((Employees)=>
 });
   });
 
-Data.listen(port, () => {
-    console.log('Server is listening on port ${port}');
+  Data.get('/employeeData/get_EmployeeByDep',(req,res)=>
+  {
+    const Dep = "Marketing";
+    EmployeeData.getEmployeeByDep(Dep).then((Department)=>{
+      res.json(Department);
+    })
+    .catch((error)=>{
+      res.status(404).json({ error: error });
+    
+    });
   });
+
+  Data.get('/employeeData/get_EmployeeByJobTitle',(req,res)=>
+  {
+    const Title = "Data Analyst";
+    EmployeeData.getEmployeeByJobTitle(Title).then((Titles)=>{
+      res.json(Titles);
+    })
+    .catch((error)=>{
+      res.status(404).json({ error: error });
+    
+    });
+  });
+
+
+  Data.listen(HTTP_PORT, () => console.log(`server listening on: ${HTTP_PORT}`));
