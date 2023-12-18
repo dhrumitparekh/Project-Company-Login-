@@ -42,7 +42,8 @@ function getAllEmployees() {
 
   function getEmployeeByNum(EmployeeNumber)
   {
-    return new Promise((accepted,rejected) => {
+    return new Promise((accepted,rejected) => 
+    {
       const SelectedEmployee = Employees.find((EmployeeNum)=> EmployeeNum.id === EmployeeNumber)
       if(!SelectedEmployee)
       {
@@ -56,7 +57,8 @@ function getAllEmployees() {
 
   function getEmployeeByExp(EmployeeExp)
   {
-    return new Promise((accepted,rejected) => {
+    return new Promise((accepted,rejected) => 
+    {
       const SelectedEmployee = Employees.find((EmployeeNum)=> EmployeeNum.years_of_experience === EmployeeExp)
       if(!SelectedEmployee)
       {
@@ -67,5 +69,49 @@ function getAllEmployees() {
       }
     });
   }
-  
-module.exports={Initialize,getAllEmployees,getEmployeeByNum,getEmployeeByExp};
+
+  function getEmployeeByDep (Dep)
+  {
+    return new Promise ((accepted,rejected)=>
+    {
+      const depInLowerCase = Dep.toLowerCase();
+      const commonDep =Employees.filter((Departments)=>
+      {
+      const selectedEmp = Departments.department.toLowerCase();
+      return selectedEmp.includes(depInLowerCase);
+    });
+    if(commonDep <= 0)
+    {
+      rejected("Unable to get the Department");
+    }
+    else
+    {
+      accepted(commonDep);
+    }
+
+   });
+  }  
+
+  function getEmployeeByJobTitle (JobTitle)
+  {
+    return new Promise ((accepted,rejected)=>
+    {
+      const jobTitleInLowerCase = JobTitle.toLowerCase();
+      const commonTitles = Employees.filter((Titles)=>
+      {
+      const selectedEmp = Titles.job_title.toLowerCase();
+      return selectedEmp.includes(jobTitleInLowerCase);
+    });
+    if(commonTitles <= 0)
+    {
+      rejected("Unable to get the Job Title");
+    }
+    else
+    {
+      accepted(commonTitles);
+    }
+
+   });
+  }  
+
+module.exports={Initialize,getAllEmployees,getEmployeeByNum,getEmployeeByExp,getEmployeeByDep,getEmployeeByJobTitle};
