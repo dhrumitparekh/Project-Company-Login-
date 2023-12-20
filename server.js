@@ -1,65 +1,69 @@
 const express = require('express');
 const Data= express();
+const path = require('path');
 const HTTP_PORT = 8080;
-const EmployeeData =require("./modules/employeeData");
+const EmployeeData = require("./modules/employeeData");
 Data.use(express.static('public')); 
 
+
 EmployeeData.Initialize()
-Data.get ('/',(req,res)=>{
-    res.send('Testing');
+Data.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './views/home.html'));
 });
 
-Data.get('/employeeData/Employees',(req,res)=>{
-    EmployeeData.getAllEmployees()
-    .then((employeeData) => {
-        res.json(employeeData);
-      })
-    });
-
-Data.get('/employeeData/get_EmployeeNum',(req,res)=>{
-      const EmployeeNum = "3";
-EmployeeData.getEmployeeByNum(EmployeeNum).then((Employees)=>
-{
-  res.json(Employees);
-}).catch((error) => {
-  res.status(404).json({ error: error });
+Data.get('/about', (req, res) => {
+  res.sendFile(path.join(__dirname, './views/about.html'));
 });
-  });
 
-Data.get('/employeeData/get_EmployeeExp',(req,res)=>{
-      const EmployeeExp = "7";
-
-EmployeeData.getEmployeeByExp(EmployeeExp).then((Employees)=>
-{
-  res.json(Employees);
-}).catch((error) => {
-  res.status(404).json({ error: error });
-});
-  });
-
-  Data.get('/employeeData/get_EmployeeByDep',(req,res)=>
-  {
-    const Dep = "Marketing";
-    EmployeeData.getEmployeeByDep(Dep).then((Department)=>{
-      res.json(Department);
-    })
-    .catch((error)=>{
+Data.get('/employeeData/Employees',async(req,res)=>{
+  const EmployeeDep = req.query.EmployeeDep;
+  const EmployeeJob = req.query.EmployeeJob;
+  try{
+    if (EmployeeDep)
+    {
+      const Depart = await EmployeeData.getEmployeeByDep(EmployeeDep);
+      res.json(Depart);
+    }
+    else if(EmployeeJob)
+    {
+      const Job = await EmployeeData.getEmployeeByJobTitle(EmployeeJob);
+      res.json(Job);
+    }
+    else
+    {
+    const Number = await EmployeeData.getAllEmployees();
+    res.json(Number);
+    }
+  }
+    catch
+    {
       res.status(404).json({ error: error });
-    
+    }
     });
+
+Data.get('/employeeData/Employees/:id',async(req,res)=>{
+      const EmployeeNum = req.params.id;
+      try{
+          const IdNumber = await EmployeeData.getEmployeeByNum(EmployeeNum);
+          res.json(IdNumber);
+}
+catch(error) 
+{
+  res.status(404).json({ error: error });
+}
   });
 
-  Data.get('/employeeData/get_EmployeeByJobTitle',(req,res)=>
+Data.get('/employeeData/Employees/years/:years_of_experience',async(req,res)=>{
+      const EmployeeExp = req.params.years_of_experience;
+  try
+  {  
+    const Experience = await EmployeeData.getEmployeeByExp(EmployeeExp);
+    res.json(Experience);
+  }
+  catch(error)
   {
-    const Title = "Data Analyst";
-    EmployeeData.getEmployeeByJobTitle(Title).then((Titles)=>{
-      res.json(Titles);
-    })
-    .catch((error)=>{
-      res.status(404).json({ error: error });
-    
-    });
-  });
-
+    res.status(404).json({ error: error });
+  }
+});
 
   Data.listen(HTTP_PORT, () => console.log(`server listening on: ${HTTP_PORT}`));
