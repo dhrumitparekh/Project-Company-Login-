@@ -60,7 +60,7 @@ function getAllEmployees() {
     return new Promise((accepted,rejected) => 
     {
       const SelectedEmployee = Employees.find((EmployeeNum)=> EmployeeNum.years_of_experience === EmployeeExp)
-      if(!SelectedEmployee)
+      if(SelectedEmployee <= 0 )
       {
         rejected("Unable to find the employee");
       }
