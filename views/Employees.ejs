@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="/css/main.css">
+<%- include('partials/navbar', {page: '/EmployeeData/Employees'}) %>
+<div class="flex items-center space-x-4">
+  <input id="searchbar" type="text" placeholder=" Search..." class="border rounded-md px-2 py-2 w-full">
+
+  <select class="border rounded-md px-2 py-2">
+    <option id="employee_id">Employee ID</option>
+    <option id="department">Department</option>
+    <option id="job_title">Job Title</option>
+    <option id="years_of_experience">Years of Experience</option>
+  </select>
+
+  <button class="bg-blue-500 text-white px-4 py-2 rounded-md">Search</button>
+</div>
+
+
+
+<div class="overflow-x-auto">
+  <table class="table min-w-full border border-gray-300">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="px-6 py-2 border-b">ID</th>
+        <th class="px-6 py-2 border-b">Name</th>
+        <th class="px-6 py-2 border-b">Email</th>
+        <th class="px-6 py-2 border-b">Phone</th>
+        <th class="px-6 py-2 border-b">Gender</th>
+        <th class="px-6 py-2 border-b">Age</th>
+        <th class="px-6 py-2 border-b">Job</th>
+        <th class="px-6 py-2 border-b">Experience</th>
+        <th class="px-6 py-2 border-b">Salary</th>
+        <th class="px-6 py-2 border-b">Department</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% Employees.forEach((Emp) => { %>
+        <tr class="hover:bg-gray-50">
+          <td class="px-6 py-4"><%= Emp.id %></td>
+          <td class="px-6 py-4">
+            <div class="flex items-center space-x-3">
+              <div class="avatar">
+                <div class="mask mask-squircle w-12 h-12 overflow-hidden">
+                  <img src="<%= Emp.Image %>" alt="Avatar" width="100" height="100" />
+                </div>
+              </div>
+              <div>
+                <div class="font-bold text-gray-800"><%= Emp.first_name %> <%= Emp.last_name %></div>
+                <div class="text-sm text-gray-500"><%= Emp.department %></div>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4"><%= Emp.email %></td>
+          <td class="px-6 py-4"><%= Emp.phone %></td>
+          <td class="px-6 py-4"><%= Emp.gender %></td>
+          <td class="px-6 py-4"><%= Emp.age %></td>
+          <td class="px-6 py-4">
+            <button class="border rounded-md px-3 py-1 text-gray-700 bg-white hover:bg-gray-100">
+              <%= Emp.job_title %>
+            </button>
+          </td>
+          <td class="px-6 py-4">
+            <button class="border rounded-md px-3 py-1 text-gray-700 bg-white hover:bg-gray-100">
+              <%= Emp.years_of_experience %>
+            </button>
+          </td>
+          <td class="px-6 py-4"><%= Emp.salary %></td>
+          <td class="px-6 py-4">
+            <button onclick="location.href='/employeeData/Employees?department=<%= Emp.department %>'"class="border rounded-md px-3 py-1 text-gray-700 bg-white hover:bg-gray-100">
+                <%= Emp.department %>
+            </button>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</div>
