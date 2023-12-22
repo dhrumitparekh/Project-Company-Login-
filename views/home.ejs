@@ -8,11 +8,8 @@
 </head>
 
 <body>
-
-  <nav class="bg-white px-4 text-black p-2">
-  <a href="/" class="text-black text-2xl font-bold">Home</a>
-  <a href="/about"class="text-black text-2xl font-bold">About</a>
-</nav>
+  <%- include('partials/navbar', {page: '/'}) %>
+  
 <br>
 <div class="flex items-center space-x-4">
   <input id ="searchbar" type="text" placeholder=" Search..." class="border rounded-md px-2 py-2 w-full">
@@ -25,18 +22,10 @@
   </select>
 
   <button class="bg-blue-500 text-white px-4 py-2 rounded-md">Search</button>
-<script>
-   const selectedOption = selectElement.options[selectElement.selectedIndex].id;
-  const searchInput =document.getElementnById('searchInput');
-  searchInput.addEventListener('input',function(change){
-    const searchText=change.target.value.trim()
- if(selectedOption == "employee_id")
- {
-  console.log('/employeeData/Employees');
- }
-  });
- 
-  </script>
+  
+  
+
+  
 </div>
 </body>
 </html>
