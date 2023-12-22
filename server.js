@@ -4,15 +4,15 @@ const path = require('path');
 const HTTP_PORT = 8080;
 const EmployeeData = require("./modules/employeeData");
 Data.use(express.static('public')); 
-
+Data.set('view engine', 'ejs');
 
 EmployeeData.Initialize()
 Data.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, './views/home.html'));
+  res.render("home");
 });
 
 Data.get('/about', (req, res) => {
-  res.sendFile(path.join(__dirname, './views/about.html'));
+  res.render("about");
 });
 
 Data.get('/employeeData/Employees',async(req,res)=>{
@@ -22,17 +22,17 @@ Data.get('/employeeData/Employees',async(req,res)=>{
     if (EmployeeDep)
     {
       const Depart = await EmployeeData.getEmployeeByDep(EmployeeDep);
-      res.json(Depart);
+      res.render("Employees", {Employees : Depart });
     }
     else if(EmployeeJob)
     {
       const Job = await EmployeeData.getEmployeeByJobTitle(EmployeeJob);
-      res.json(Job);
+      res.render("Employees", {Employees : Job });
     }
     else
     {
     const Number = await EmployeeData.getAllEmployees();
-    res.json(Number);
+    res.render("Employees", {Employees : Number });
     }
   }
     catch
@@ -45,7 +45,7 @@ Data.get('/employeeData/Employees/:id',async(req,res)=>{
       const EmployeeNum = req.params.id;
       try{
           const IdNumber = await EmployeeData.getEmployeeByNum(EmployeeNum);
-          res.json(IdNumber);
+          res.render("Employees", {Employees : IdNumber });
 }
 catch(error) 
 {
@@ -58,7 +58,7 @@ Data.get('/employeeData/Employees/years/:years_of_experience',async(req,res)=>{
   try
   {  
     const Experience = await EmployeeData.getEmployeeByExp(EmployeeExp);
-    res.json(Experience);
+    res.render("Employees", {Employees : Experience });
   }
   catch(error)
   {
