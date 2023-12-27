@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    <%- include('partials/navbar', { page: '' }) %>
+
+    <div class="container mx-auto p-4">
+
+        <div class="hero bg-base-200 rounded-lg p-6">
+            <div class="hero-content text-center ">
+                <div class="max-w-md">
+                    <h1 id="Employee-name" class="text-5xl font-bold">Employee Id : <%= Employee.id %></h1>
+
+                    <p class="py-6">Employees Name :<span id="Employee-name-details"><%= Employee.first_name %> <%= Employee.last_name%></span></p>
+                </div>
+            </div>
+        </div>
+
+        <br />
+
+        <div class="flex">
+            <div class="w-32 h-32 rounded-full overflow-hidden">
+                <img id="Employee-image" class="w-full h-full object-cover" src="<%= Employee.Image %>" alt="Employee Image" />
+            </div>
+            <div class="prose ml-4">
+                <p>
+                    <span class="font-bold" id="Employee Experience">Employee Experience: <%= Employee.years_of_experience %></span> <br />
+                    <span class="font-bold" id="Salary">Salary: <%= Employee.salary %></span> <br />
+                    <span class="font-bold" id="department">Department: <%= Employee.department %></span> <br>
+                    <span class="font-bold" id="email">Email: <%= Employee.email %></span><br>
+                    <span class="font-bold" id="job_title">Job Title: <%= Employee.job_title %></span><br>
+                    <span class="font-bold" id="gender">Gender: <%= Employee.gender %></span><br>
+                    <span class="font-bold" id="phone">Phone: <%= Employee.phone %></span><br>
+                    <br /><br />
+                </p>
+                <button onclick="window.history.back()" class="bg-blue-500 text-white px-4 py-2 rounded-md">Return</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
