@@ -10,7 +10,9 @@
       "job_title": "1",
       "years_of_experience": "5",
       "salary": "9500",
-      "department": "1"
+      "department": "1",
+      "Image":"https://imgs.search.brave.com/ixY9WyhVRHA1Qmm8OFT4kv89m48RR_8ZIeNqTktG-L0/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93d3cu/dzNzY2hvb2xzLmNv/bS9ob3d0by9pbWdf/YXZhdGFyMi5wbmc"
+
     },
     {
       "id": "3",
@@ -23,7 +25,8 @@
       "job_title": "2",
       "years_of_experience": "3",
       "salary": "7500",
-      "department": "2"
+      "department": "2",
+      "Image":"https://imgs.search.brave.com/_QS-C_ZdFRoEEb83lITyO3dY1Y6syO6ywUb65b2ZRcQ/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93d3cu/dzNzY2hvb2xzLmNv/bS9ob3d0by9pbWdf/YXZhdGFyLnBuZw"
     },
     {
       "id": "4",
@@ -36,7 +39,51 @@
       "job_title": "3",
       "years_of_experience": "7",
       "salary": "10500",
-      "department": "3"
-    }
+      "department": "3",
+      "Image":"https://imgs.search.brave.com/ixY9WyhVRHA1Qmm8OFT4kv89m48RR_8ZIeNqTktG-L0/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93d3cu/dzNzY2hvb2xzLmNv/bS9ob3d0by9pbWdf/YXZhdGFyMi5wbmc"
+    },
+      {
+        "id": "5",
+        "first_name": "Daniel",
+        "last_name": "Miller",
+        "email": "danielmiller@example.com",
+        "phone": "+1-555-987-6543",
+        "gender": "male",
+        "age": "32",
+        "job_title": "2",
+        "years_of_experience": "6",
+        "salary": "8500",
+        "department": "2",
+        "Image": "https://imgs.search.brave.com/_QS-C_ZdFRoEEb83lITyO3dY1Y6syO6ywUb65b2ZRcQ/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93d3cu/dzNzY2hvb2xzLmNv/bS9ob3d0by9pbWdf/YXZhdGFyLnBuZw"
+      },
+      {
+        "id": "6",
+        "first_name": "Olivia",
+        "last_name": "Wilson",
+        "email": "oliviawilson@example.com",
+        "phone": "+1-777-321-6548",
+        "gender": "female",
+        "age": "29",
+        "job_title": "1",
+        "years_of_experience": "4",
+        "salary": "7800",
+        "department": "1",
+        "Image": "https://imgs.search.brave.com/ixY9WyhVRHA1Qmm8OFT4kv89m48RR_8ZIeNqTktG-L0/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93d3cu/dzNzY2hvb2xzLmNv/bS9ob3d0by9pbWdf/YXZhdGFyMi5wbmc"
+      },
+      {
+        "id": "7",
+        "first_name": "Aiden",
+        "last_name": "Thompson",
+        "email": "aidenthompson@example.com",
+        "phone": "+1-111-222-3333",
+        "gender": "male",
+        "age": "27",
+        "job_title": "3",
+        "years_of_experience": "5",
+        "salary": "9200",
+        "department": "3",
+        "Image": "https://imgs.search.brave.com/ixY9WyhVRHA1Qmm8OFT4kv89m48RR_8ZIeNqTktG-L0/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93d3cu/dzNzY2hvb2xzLmNv/bS9ob3d0by9pbWdf/YXZhdGFyMi5wbmc"
+      }
+        
   ]
   
