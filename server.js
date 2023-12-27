@@ -45,7 +45,7 @@ Data.get('/employeeData/Employees/:id',async(req,res)=>{
       const EmployeeNum = req.params.id;
       try{
           const IdNumber = await EmployeeData.getEmployeeByNum(EmployeeNum);
-          res.render("Employees", {Employees : IdNumber });
+          res.render("Employee", {Employee : IdNumber });
 }
 catch(error) 
 {
@@ -58,12 +58,13 @@ Data.get('/employeeData/Employees/years/:years_of_experience',async(req,res)=>{
   try
   {  
     const Experience = await EmployeeData.getEmployeeByExp(EmployeeExp);
-    res.render("Employees", {Employees : Experience });
+    res.render("Employee", {Employee : Experience });
   }
   catch(error)
   {
     res.status(404).json({ error: error });
   }
 });
+
 
   Data.listen(HTTP_PORT, () => console.log(`server listening on: ${HTTP_PORT}`));
