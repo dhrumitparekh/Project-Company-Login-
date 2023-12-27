@@ -1,22 +1,22 @@
 <link rel="stylesheet" href="/css/main.css">
 <%- include('partials/navbar', {page: '/EmployeeData/Employees'}) %>
 <div class="flex items-center space-x-4">
-  <input id="searchbar" type="text" placeholder=" Search..." class="border rounded-md px-2 py-2 w-full">
+  <input id="searchbar" type="text"  placeholder=" Search Emplyoees..." class="border rounded-md px-2 py-2 w-full" onkeyup="searchEmp()">
 
-  <select class="border rounded-md px-2 py-2">
-    <option id="employee_id">Employee ID</option>
-    <option id="department">Department</option>
-    <option id="job_title">Job Title</option>
-    <option id="years_of_experience">Years of Experience</option>
+  <select id="searchBySelect" class="border rounded-md px-2 py-2">
+    <option value="name">Name</option>
+    <option value="id">Employee ID</option>
+    <option value="department">Department</option>
+    <option value="jobtitle">Job Title</option>
+    <option value="yearsofexperience">Years of Experience</option>
   </select>
-
   <button class="bg-blue-500 text-white px-4 py-2 rounded-md">Search</button>
 </div>
 
 
 
-<div class="overflow-x-auto">
-  <table class="table min-w-full border border-gray-300">
+<div class="overflow-x-auto" >
+  <table class="table min-w-full border border-gray-300" id ="tableData">
     <thead>
       <tr class="bg-gray-100">
         <th class="px-6 py-2 border-b">ID</th>
@@ -32,9 +32,10 @@
       </tr>
     </thead>
     <tbody>
+      <div class="employee-list">
       <% Employees.forEach((Emp) => { %>
         <tr class="hover:bg-gray-50">
-          <td class="px-6 py-4"><%= Emp.id %></td>
+          <td class="px-6 py-4"><button onclick="location.href='/employeeData/Employees/<%=Emp.id%>'"class="border rounded-md px-3 py-1 text-gray-700 bg-white hover:bg-gray-100"><%= Emp.id %></button></td>
           <td class="px-6 py-4">
             <div class="flex items-center space-x-3">
               <div class="avatar">
@@ -43,7 +44,7 @@
                 </div>
               </div>
               <div>
-                <div class="font-bold text-gray-800"><%= Emp.first_name %> <%= Emp.last_name %></div>
+                <div class="font-bold text-gray-800" id="name"><%= Emp.first_name %> <%= Emp.last_name %></div>
                 <div class="text-sm text-gray-500"><%= Emp.department %></div>
               </div>
             </div>
@@ -53,23 +54,63 @@
           <td class="px-6 py-4"><%= Emp.gender %></td>
           <td class="px-6 py-4"><%= Emp.age %></td>
           <td class="px-6 py-4">
-            <button class="border rounded-md px-3 py-1 text-gray-700 bg-white hover:bg-gray-100">
               <%= Emp.job_title %>
-            </button>
           </td>
           <td class="px-6 py-4">
-            <button class="border rounded-md px-3 py-1 text-gray-700 bg-white hover:bg-gray-100">
-              <%= Emp.years_of_experience %>
+              <button onclick="location.href='/employeeData/Employees/years/<%= Emp.years_of_experience %>'"class="border rounded-md px-3 py-1 text-gray-700 bg-white hover:bg-gray-100">
+                <%= Emp.years_of_experience %>
             </button>
           </td>
           <td class="px-6 py-4"><%= Emp.salary %></td>
           <td class="px-6 py-4">
-            <button onclick="location.href='/employeeData/Employees?department=<%= Emp.department %>'"class="border rounded-md px-3 py-1 text-gray-700 bg-white hover:bg-gray-100">
                 <%= Emp.department %>
-            </button>
           </td>
         </tr>
       <% }); %>
-    </tbody>
+      </div>
+    </tbody>               
   </table>
 </div>
+
+<script>
+function searchEmp() {
+  let filter = document.getElementById('searchbar').value.toUpperCase();
+  let tableData = document.getElementById('tableData');
+  let rows = tableData.getElementsByTagName('tr');
+  let listItems = document.getElementById('searchBySelect').value;
+
+  for (let i = 0; i < rows.length; i++) {
+    let td;
+
+    switch(listItems) {
+      case 'name':
+        td = rows[i].getElementsByTagName('td')[1]; 
+        break;
+      case 'id':
+        td = rows[i].getElementsByTagName('td')[0]; 
+        break;
+      case 'department':
+        td = rows[i].getElementsByTagName('td')[9]; 
+        break;
+      case 'jobtitle':
+        td = rows[i].getElementsByTagName('td')[6]; 
+        break;
+      case 'yearsofexperience':
+        td = rows[i].getElementsByTagName('td')[7]; 
+        break;
+      default:
+        td = rows[i].getElementsByTagName('div')[4]; 
+        break;
+    }
+
+    if (td) {
+      let textValue = td.textContent || td.innerHTML;
+      if (textValue.toUpperCase().indexOf(filter) > -1) {
+        rows[i].style.display = '';
+      } else {
+        rows[i].style.display = 'none';
+      }
+    }
+  }
+}
+</script>
