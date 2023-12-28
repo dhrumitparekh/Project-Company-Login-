@@ -37,7 +37,7 @@ Data.get('/employeeData/Employees',async(req,res)=>{
   }
     catch
     {
-      res.status(404).json({ error: error });
+      res.status(404).render("404",{ message: "No such employee found" });
     }
     });
 
@@ -49,7 +49,8 @@ Data.get('/employeeData/Employees/:id',async(req,res)=>{
 }
 catch(error) 
 {
-  res.status(404).json({ error: error });
+  const Input = req.params.id;
+  res.status(404).render("404",{ message : `No employee with id ${Input} found. ` });
 }
   });
 
@@ -59,10 +60,14 @@ Data.get('/employeeData/Employees/years/:years_of_experience',async(req,res)=>{
   {  
     const Experience = await EmployeeData.getEmployeeByExp(EmployeeExp);
     res.render("Employee", {Employee : Experience });
+    if(!Experience){
+      throw new error('Employee not found');
+    }
   }
   catch(error)
   {
-    res.status(404).json({ error: error });
+    const Input = req.params.years_of_experience;
+    res.status(404).render("404",{ message : `No  employee with ${Input} years of experience found.`});
   }
 });
 
