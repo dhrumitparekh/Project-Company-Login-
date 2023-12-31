@@ -54,6 +54,25 @@ catch(error)
 }
   });
 
+  Data.get("/employeeData/addEmployees", async (req, res) => {
+    try {
+      const Job = await EmployeeData.getAllJobTitles();
+      const Dep = await EmployeeData.getAllDepartments();
+      res.render("addEmployees", { Job,Dep });
+    } catch (err) {
+      res.render("404", { message: `Error: ${err.message}` });
+    }
+  });
+  
+  Data.post('/employeeData/addEmployees', async (req, res) => {
+    try {
+      await EmployeeData.addEmployee(req.body);
+      res.redirect('/employeeData/Employees');
+    } catch (err) {
+      res.render("404", { message: `Error: ${err}` });
+    }
+  });
+
 Data.get('/employeeData/Employees/years/:years_of_experience',async(req,res)=>{
       const EmployeeExp = req.params.years_of_experience;
   try
@@ -73,3 +92,4 @@ Data.get('/employeeData/Employees/years/:years_of_experience',async(req,res)=>{
 
 
   Data.listen(HTTP_PORT, () => console.log(`server listening on: ${HTTP_PORT}`));
+
