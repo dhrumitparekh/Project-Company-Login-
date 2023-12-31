@@ -1,0 +1,95 @@
+<link rel="stylesheet" href="/css/main.css">
+<%- include('partials/navbar',{page:'/employeeData/addEmployees'}) %>
+
+<div class="container mx-auto">
+
+    <div class="hero bg-base-200 rounded-lg p-6">
+        <div class="hero-content text-center ">
+            <div class="max-w-md">
+                <h1 class="text-5xl font-bold">Add Employees</h1>
+
+                <p class="py-6">Use the form given below to add New Employees to the Database</p>
+
+            </div>
+        </div>
+    </div>
+
+    <br><br><br>
+
+    <form action="/employeeData/addEmployees" method="post">
+       
+        <div class="mb-4">
+            <label for="id" class="block text-sm font-semibold">Employee ID :</label>
+            <input type="number" id="id" name="id" required class="w-full p-2 border rounded">
+        </div>
+
+        <div class="mb-4">
+            <label for="first_name" class="block text-sm font-semibold">Employee First Name:</label>
+            <input type="text" id="first_name" name="name" required class="w-full p-2 border rounded">
+        </div>
+
+        <div class="mb-4">
+            <label for="last_name" class="block text-sm font-semibold">Employee Last Name:</label>
+            <input type="text" id="last_name" name="name" required class="w-full p-2 border rounded">
+        </div>
+
+        <div class="mb-4">
+            <label for="email" class="block text-sm font-semibold">Email :</label>
+            <input type="email" value="@gmail.com" id="email" name="email" required class="w-full p-2 border rounded">
+        </div>
+
+  
+        <div class="mb-4">
+            <label for="phone" class="block text-sm font-semibold">Phone :</label>
+            <input type="number" id="phone" name="phone"  required class="w-full p-2 border rounded">
+        </div>
+
+        <div class="mb-4">
+            <label for="gender" class="block text-sm font-semibold">Gender :</label>
+            <input type="text" id="gender" name="gender" required class="w-full p-2 border rounded">
+        </div>
+
+        <div class="mb-4">
+            <label for="age" class="block text-sm font-semibold">Age :</label>
+            <input type="number" id="age" name="age" required class="w-full p-2 border rounded">
+        </div>
+
+        <div class="mb-4">
+            <label for="job_title" class="block text-sm font-semibold">Job title:</label>
+            <select id="job_title" name="job_title" required class="w-full p-2 border rounded">
+                <% Job.forEach(jobTitle => { %>
+                    <option value="<%= jobTitle.id %>"><%= jobTitle.Job_title %></option>
+                  <% }) %>
+            </select>
+        </div>
+        
+
+        <div class="mb-4">
+            <label for="years_of_experience" class="block text-sm font-semibold">Employee Experience :</label>
+            <input type="number" id="years_of_experience" name="years_of_experience" required class="w-full p-2 border rounded">
+        </div>
+
+        <div class="mb-4">
+            <label for="salary" class="block text-sm font-semibold">Salary :</label>
+            <input type="number" id="salary" name="salary" required class="w-full p-2 border rounded">
+        </div>
+        
+        <div class="mb-4">
+            <label for="department" class="block text-sm font-semibold">Department:</label>
+            <select id="department" name="department" required class="w-full p-2 border rounded">
+                <% Dep.forEach(department => { %>
+                    <option value="<%= department.id %>"><%= department.Department %></option>
+                <% }) %>
+            </select>
+        </div>
+        
+        <div class="mb-4">
+            <label for="Image" class="block text-sm font-semibold">Image :</label>
+            <input type="url" id="img_url" name="img_url" required class="w-full p-2 border rounded">
+        </div>
+
+        <div>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
+        </div>
+    </form>
+</div>
