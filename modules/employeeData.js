@@ -67,47 +67,39 @@ sequelize
   });
 
   async function Initialize() {
-    try {
-      const employees = await Employee.findAll();
-  
-      for (let i = 0; i < employees.length; i++) {
-        const employee = employees[i];
-        
-        const job = await Jobtitle.findOne({ where: { id: employee.job_title } });
-        if (job) {
- 
-          employees.job_title = job.Job_title;
-        } else {
-          employee.job_title = "Not Defined";
-        }
-  
-        const department = await Department.findOne({ where: { id: employee.department } });
-        if (department) {
-          employee.department = Department.Department;
-        } else {
-          employee.department = "Not Valid";
-        }
-  
-        await employee.save();
-      }
-  
-      await sequelize.sync();
-      return true; 
-    } catch (error) {
-      throw error;
-    }
+    return sequelize.sync();
   }
   
   async function getAllEmployees() {
-    try {
-      await sequelize.sync();
-      const employees = await Employee.findAll();
-      return employees;
-    } catch (error) {
-      throw error;
-    }
+  try {
+    await sequelize.sync();
+    const employees = await Employee.findAll({
+      include: [{ model: Department }, { model: Jobtitle }],
+      order:[['id','ASC']],
+    });
+
+    const transformedEmployees = employees.map((employee) => ({
+      id: employee.id,
+      first_name:employee.first_name,
+      last_name:employee.last_name,
+      email:employee.email,
+      phone:employee.phone,
+      gender:employee.gender,
+      age:employee.age,
+      years_of_experience:employee.years_of_experience,
+      salary:employee.salary,
+      Image:employee.Image,
+      department: employee.Department.Department,
+      job_title: employee.Jobtitle.Job_title,
+     
+    }));
+
+    return transformedEmployees;
+  } catch (error) {
+    throw error;
   }
-  
+}
+
 
 
 function getEmployeeByNum(EmployeeNumber) {
@@ -157,13 +149,16 @@ function getEmployeeByExp(EmployeeExp) {
   });
 }
 
-const addEmployee = async (employeeData) => {
-  try {
-    await Employee.create(employeeData);
-  } catch (err) {
-    throw err.errors[0].message;
-  }
-};
+function addEmployee(employeeData) {
+  return new Promise(async (resolve,reject)=>{
+    try {
+      await Employee.create(employeeData);
+      resolve();
+    } catch (err) {
+      reject(err.errors[0].message);
+    }
+  });
+}
 
 const getAllDepartments = async () => {
   try {
@@ -183,6 +178,27 @@ const getAllJobTitles = async () => {
   }
 };
 
+
+
+const editEmployee = async (empId, updatedData) => {
+  try {
+    if (empId !== undefined) {
+      await Employee.update(updatedData, { where: { id: empId } });
+    } else {
+      throw new Error("Invalid or undefined empId");
+    }
+  } catch (err) {
+    throw err;
+  }
+};
+
+const deleteEmployee = async (EmpNum) => {
+  try {
+    await Employee.destroy({ where: { id: EmpNum } });
+  } catch (err) {
+    throw err;
+  }
+};
 
 function getEmployeeByDep(Dep) {
   return new Promise(async (accepted, rejected) => {
@@ -238,10 +254,4 @@ function getEmployeeByJobTitle(JobTitle) {
   });
 }
 
-module.exports={Initialize,getAllEmployees,getEmployeeByNum,getEmployeeByExp,addEmployee,getAllDepartments,getAllJobTitles,getEmployeeByDep,getEmployeeByJobTitle};
-
-
-
-
-
-
+module.exports={Initialize,getAllEmployees,getEmployeeByNum,getEmployeeByExp,addEmployee,getAllDepartments,getAllJobTitles,deleteEmployee,editEmployee,getEmployeeByDep,getEmployeeByJobTitle};
