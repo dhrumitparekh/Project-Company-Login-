@@ -43,8 +43,12 @@
                         <span class="font-semibold" id="Salary">Salary:</span> <%= Employee.salary %><br />
                         <span class="font-semibold" id="department">Department:</span> <%= Employee.Department.Department %><br>
                     </p>
+                    <% if (session && session.user) { %>
+                        <a class="btn btn-primary" href="/employeeData/editEmployees/<%= Employee.id %>">Edit</a>
+                       <% } %>
                         <button onclick="window.history.back()"
                             class="bg-blue-500 text-white px-4 py-2 rounded-md">Return</button>
+
                     </div>
                 </div>
             </div>
