@@ -1,95 +1,118 @@
 <link rel="stylesheet" href="/css/main.css">
-<%- include('partials/navbar',{page:'/employeeData/addEmployees'}) %>
+<%- include('partials/navbar', {page: '/EmployeeData/Employees'}) %>
+<br>
+<div class="flex items-center space-x-4">
+  <input id="searchbar" type="text"  placeholder=" Search Emplyoees..." class="border rounded-md px-2 py-2 w-full" onkeyup="searchEmp()">
 
-<div class="container mx-auto">
-
-    <div class="hero bg-base-200 rounded-lg p-6">
-        <div class="hero-content text-center ">
-            <div class="max-w-md">
-                <h1 class="text-5xl font-bold">Add Employees</h1>
-
-                <p class="py-6">Use the form given below to add New Employees to the Database</p>
-
-            </div>
-        </div>
-    </div>
-
-    <br><br><br>
-
-    <form action="/employeeData/addEmployees" method="post">
-       
-        <div class="mb-4">
-            <label for="id" class="block text-sm font-semibold">Employee ID :</label>
-            <input type="number" id="id" name="id" value="" required class="w-full p-2 border rounded">
-        </div>
-
-        <div class="mb-4">
-            <label for="first_name" class="block text-sm font-semibold">Employee First Name:</label>
-            <input type="text" id="first_name" name="first_name" value="" required class="w-full p-2 border rounded">
-        </div>
-
-        <div class="mb-4">
-            <label for="last_name" class="block text-sm font-semibold">Employee Last Name:</label>
-            <input type="text" id="last_name" name="last_name" value="" required class="w-full p-2 border rounded">
-        </div>
-
-        <div class="mb-4">
-            <label for="email" class="block text-sm font-semibold">Email :</label>
-            <input type="email" value="@gmail.com" id="email" value="" name="email" required class="w-full p-2 border rounded">
-        </div>
-
-  
-        <div class="mb-4">
-            <label for="phone" class="block text-sm font-semibold">Phone :</label>
-            <input type="text" id="phone" name="phone" value=""  required class="w-full p-2 border rounded">
-        </div>
-
-        <div class="mb-4">
-            <label for="gender" class="block text-sm font-semibold">Gender :</label>
-            <input type="text" id="gender" name="gender" value="" required class="w-full p-2 border rounded">
-        </div>
-
-        <div class="mb-4">
-            <label for="age" class="block text-sm font-semibold">Age :</label>
-            <input type="number" id="age" name="age" value="" required class="w-full p-2 border rounded">
-        </div>
-
-        <div class="mb-4">
-            <label for="job_title" class="block text-sm font-semibold">Job title:</label>
-            <select id="job_title" name="job_title" required class="w-full p-2 border rounded">
-                <% Job.forEach(jobTitle => { %>
-                    <option value="<%= jobTitle.id %>"><%= jobTitle.Job_title %></option>
-                  <% }) %>
-            </select>
-        </div>
-        
-
-        <div class="mb-4">
-            <label for="years_of_experience" class="block text-sm font-semibold">Employee Experience :</label>
-            <input type="number" id="years_of_experience" name="years_of_experience" value="" required class="w-full p-2 border rounded">
-        </div>
-
-        <div class="mb-4">
-            <label for="salary" class="block text-sm font-semibold">Salary :</label>
-            <input type="number" id="salary" name="salary" value="" required class="w-full p-2 border rounded">
-        </div>
-        
-        <div class="mb-4">
-            <label for="department" class="block text-sm font-semibold">Department:</label>
-            <select id="department" name="department" required class="w-full p-2 border rounded">
-                <% Dep.forEach(department => { %>
-                    <option value="<%= department.id %>"><%= department.Department %></option>
-                <% }) %>
-            </select>
-        </div>
-        
-        <div class="mb-4">
-            <label for="Image" class="block text-sm font-semibold">Image :</label>
-            <input type="url" id="Image" name="Image" value="" required class="w-full p-2 border rounded">
-        </div>
-
-        <div>
-            <button type="submit" class="btn btn-success">Submit</button>
-        </div>
-    </form>
+  <select id="searchBySelect" class="border rounded-md px-2 py-2">
+    <option value="name">Name</option>
+    <option value="id">Employee ID</option>
+    <option value="department">Department</option>
+    <option value="jobtitle">Job Title</option>
+    <option value="yearsofexperience">Years of Experience</option>
+  </select>
+  <button class="bg-blue-500 text-white px-4 py-2 rounded-md">Search</button>
 </div>
+<br>
+
+
+
+<div class="overflow-x-auto" >
+  <table class="table min-w-full border border-gray-300" id ="tableData">
+    <thead>
+      <tr class="bg-base-400">
+        <th class="px-6 py-2 border-b">ID</th>
+        <th class="px-6 py-2 border-b">Name</th>
+        <th class="px-6 py-2 border-b">Email</th>
+        <th class="px-6 py-2 border-b">Phone</th>
+        <th class="px-6 py-2 border-b">Gender</th>
+        <th class="px-6 py-2 border-b">Age</th>
+        <th class="px-6 py-2 border-b">Job</th>
+        <th class="px-6 py-2 border-b">Experience</th>
+        <th class="px-6 py-2 border-b">Salary</th>
+        <th class="px-6 py-2 border-b">Department</th>
+      </tr>
+    </thead>
+    <tbody>
+      <div class="employee-list">
+      <% Employees.forEach((Emp) => { %>
+        <tr class="hover:bg-base-200">
+          <td class="px-6 py-4"><button onclick="location.href='/employeeData/Employees/<%=Emp.id%>'"class="border rounded-md px-3 py-1 text-gray-700 bg-gray-400 hover:bg-white-100"><%= Emp.id %></button></td>
+          <td class="px-6 py-4">
+            <div class="flex items-center space-x-3">
+              <div class="avatar">
+                <div class="mask mask-squircle w-12 h-12 overflow-hidden">
+                  <img src="<%= Emp.Image %>" alt="Avatar" width="100" height="100" />
+                </div>
+              </div>
+              <div>
+                <div class="font-bold text-gray-300" id="name"><%= Emp.first_name %> <%= Emp.last_name %></div>
+                <div class="text-sm text-gray-300"><%= Emp.department %></div>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4"><%= Emp.email %></td>
+          <td class="px-6 py-4"><%= Emp.phone %></td>
+          <td class="px-6 py-4"><%= Emp.gender %></td>
+          <td class="px-6 py-4"><%= Emp.age %></td>
+          <td class="px-6 py-4">
+            <%= Emp.job_title %>
+          </td>
+          <td class="px-6 py-4">
+              <button onclick="location.href='/employeeData/Employees/years/<%= Emp.years_of_experience %>'"class="border rounded-md px-3 py-1 text-gray-700 bg-gray-400   hover:bg-white-100">
+                <%= Emp.years_of_experience %>
+            </button>
+          </td>
+          <td class="px-6 py-4"><%= Emp.salary %></td>
+          <td class="px-6 py-4">
+                <%= Emp.department %>
+          </td>
+        </tr>
+      <% }); %>
+      </div>
+    </tbody>               
+  </table>
+</div>
+
+<script>
+function searchEmp() {
+  let filter = document.getElementById('searchbar').value.toUpperCase();
+  let tableData = document.getElementById('tableData');
+  let rows = tableData.getElementsByTagName('tr');
+  let listItems = document.getElementById('searchBySelect').value;
+
+  for (let i = 0; i < rows.length; i++) {
+    let td;
+
+    switch(listItems) {
+      case 'name':
+        td = rows[i].getElementsByTagName('td')[1]; 
+        break;
+      case 'id':
+        td = rows[i].getElementsByTagName('td')[0]; 
+        break;
+      case 'department':
+        td = rows[i].getElementsByTagName('td')[9]; 
+        break;
+      case 'jobtitle':
+        td = rows[i].getElementsByTagName('td')[6]; 
+        break;
+      case 'yearsofexperience':
+        td = rows[i].getElementsByTagName('td')[7]; 
+        break;
+      default:
+        td = rows[i].getElementsByTagName('div')[4]; 
+        break;
+    }
+
+    if (td) {
+      let textValue = td.textContent || td.innerHTML;
+      if (textValue.toUpperCase().indexOf(filter) > -1) {
+        rows[i].style.display = '';
+      } else {
+        rows[i].style.display = 'none';
+      }
+    }
+  }
+}
+</script>
