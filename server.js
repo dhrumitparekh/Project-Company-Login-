@@ -5,6 +5,7 @@ const HTTP_PORT = 8080;
 const EmployeeData = require("./modules/employeeData");
 Data.use(express.static('public')); 
 Data.set('view engine', 'ejs');
+Data.use(express.urlencoded({ extended: true }));
 
 EmployeeData.Initialize()
 Data.get('/', (req, res) => {
@@ -26,12 +27,14 @@ Data.get('/employeeData/Employees',async(req,res)=>{
     }
     else if(EmployeeJob)
     {
+     
       const Job = await EmployeeData.getEmployeeByJobTitle(EmployeeJob);
-      res.render("Employees", {Employees : Job });
+      res.render("Employees", {Employees : Job});
     }
     else
     {
     const Number = await EmployeeData.getAllEmployees();
+    
     res.render("Employees", {Employees : Number });
     }
   }
@@ -64,14 +67,52 @@ catch(error)
     }
   });
   
+
   Data.post('/employeeData/addEmployees', async (req, res) => {
     try {
+
       await EmployeeData.addEmployee(req.body);
       res.redirect('/employeeData/Employees');
     } catch (err) {
+      console.log(err);
       res.render("404", { message: `Error: ${err}` });
     }
   });
+
+  Data.get('/employeeData/deleteEmployee/:id', async (req, res) => {
+    try {
+      await EmployeeData.deleteEmployee(req.params.id);
+      res.redirect('/employeeData/Employees');
+    } catch (err) {
+      res.status(500).render('500', { message: `Error: ${err}` });
+    }
+  });
+  
+Data.get('/employeeData/editEmployees/:id', async (req, res) => {
+  try {
+    const Emp = await EmployeeData.getEmployeeByNum(req.params.id);
+    const Job = await EmployeeData.getAllJobTitles();
+    const Dep = await EmployeeData.getAllDepartments();
+
+    res.render('editEmployees', { Emp, Job, Dep });
+  } catch (err) {
+    res.status(404).render('404', { message: err.message });
+  }
+});
+
+Data.post('/employeeData/editEmployees', async (req, res) => {
+  try {
+    const empId = req.body.id; 
+    const updatedData = req.body; 
+
+    await EmployeeData.editEmployee(empId, updatedData);
+
+    res.redirect('/employeeData/Employees');
+  } catch (err) {
+    res.status(500).render('500', { message: `Error: ${err}` });
+  }
+});
+
 
 Data.get('/employeeData/Employees/years/:years_of_experience',async(req,res)=>{
       const EmployeeExp = req.params.years_of_experience;
@@ -91,5 +132,11 @@ Data.get('/employeeData/Employees/years/:years_of_experience',async(req,res)=>{
 });
 
 
+
   Data.listen(HTTP_PORT, () => console.log(`server listening on: ${HTTP_PORT}`));
+
+
+
+
+
 
