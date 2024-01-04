@@ -14,7 +14,7 @@ const clientSessions = require('client-sessions');
 Data.use(bodyParser())
 Data.use(express.json()) 
 
-authData.initialize
+authData.initialize()
 
 EmployeeData.Initialize();
 
