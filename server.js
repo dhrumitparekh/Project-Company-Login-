@@ -21,7 +21,7 @@ EmployeeData.Initialize()
     console.log(`unable to start server: ${err}`);
 });
 
-EmployeeData.Initialize();
+
 
 Data.use((req, res, next) => {
   Data.locals.currentRoute = req.path;
