@@ -13,8 +13,8 @@ const clientSessions = require('client-sessions');
 
 Data.use(bodyParser());
 
-authData.initialize
-.then(EmployeeData.Initialize())
+EmployeeData.Initialize()
+.then(authData.initialize)
 .then(function(){
     Data.listen(HTTP_PORT, function(){
         console.log(`Data listening on:  ${HTTP_PORT}`);
