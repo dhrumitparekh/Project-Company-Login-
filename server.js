@@ -10,7 +10,9 @@ const authData = require('./modules/auth-service');
 const bodyParser = require('body-parser');
 const clientSessions = require('client-sessions');
 
+
 Data.use(bodyParser())
+Data.use(express.json()) 
 
 authData.initialize
 
