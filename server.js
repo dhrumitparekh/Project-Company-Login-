@@ -5,12 +5,14 @@ const HTTP_PORT = 8080;
 const EmployeeData = require("./modules/employeeData");
 Data.use(express.static('public')); 
 Data.set('view engine', 'ejs');
+Data.use(express.json());
 Data.use(express.urlencoded({ extended: true }));
 const authData = require('./modules/auth-service');
 const bodyParser = require('body-parser');
 const clientSessions = require('client-sessions');
 
-Data.use(bodyParser())
+Data.use(bodyParser());
+
 authData.initialize
 .then(EmployeeData.Initialize())
 .then(function(){
@@ -21,7 +23,6 @@ authData.initialize
     console.log(`unable to start server: ${err}`);
 });
 
-EmployeeData.Initialize();
 
 
 
