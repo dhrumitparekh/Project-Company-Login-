@@ -10,11 +10,16 @@ const authData = require('./modules/auth-service');
 const bodyParser = require('body-parser');
 const clientSessions = require('client-sessions');
 
-
 Data.use(bodyParser())
-Data.use(express.json()) 
-
-authData.initialize()
+EmployeeData.Initialize()
+.then(authData.initialize)
+.then(function(){
+    Data.listen(HTTP_PORT, function(){
+        console.log(`Data listening on:  ${HTTP_PORT}`);
+    });
+}).catch(function(err){
+    console.log(`unable to start server: ${err}`);
+});
 
 EmployeeData.Initialize();
 
@@ -218,7 +223,9 @@ Data.get('/employeeData/Employees/years/:years_of_experience',async(req,res)=>{
   }
 });
 
-    Data.listen(HTTP_PORT, () => console.log(`server listening on: ${HTTP_PORT}`));
+
+
+  
 
 
 
