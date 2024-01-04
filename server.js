@@ -23,6 +23,8 @@ EmployeeData.Initialize()
 
 EmployeeData.Initialize();
 
+
+
 Data.use((req, res, next) => {
   Data.locals.currentRoute = req.path;
   next();
@@ -41,6 +43,31 @@ Data.use((req, res, next) => {
   res.locals.session = req.session;
   next();
 });
+
+Data.get('/', (req, res) => {
+  try {
+    let errorMessage = '';
+    res.render('home', { errorMessage });
+  } catch (error) {
+    res.status(500).render('500', { message: `I'm sorry, but we have encountered the following error: ${error}` })
+  }
+})
+
+Data.post('/', async (req, res) => {
+  try {
+    const { userName, password } = req.body;
+    const userAgent = req.get('User-Agent');
+    console.log(userName, password, userAgent);
+    let user = await authData.checkUser(userName, password, userAgent);
+    if (user == 404) return res.render('home', { errorMessage: "User not fount" })
+    if (user == 400) return res.render('home', { errorMessage: "Password not match" })
+    req.session.user = user;
+    res.redirect('/employeeData/Employees');
+  } catch (error) {
+    res.status(500).render('500', { message: `I'm sorry, but we have encountered the following error: ${error}` })
+  }
+})
+
 
 const ensureLogin = (req, res, next) => {
   if (!req.session.user) {
@@ -175,29 +202,6 @@ Data.post('/register', async (req, res) => {
   }
 })
 
-Data.get('/', (req, res) => {
-  try {
-    let errorMessage = '';
-    res.render('home', { errorMessage });
-  } catch (error) {
-    res.status(500).render('500', { message: `I'm sorry, but we have encountered the following error: ${error}` })
-  }
-})
-
-Data.post('/', async (req, res) => {
-  try {
-    const { userName, password } = req.body;
-    const userAgent = req.get('User-Agent');
-    console.log(userName, password, userAgent);
-    let user = await authData.checkUser(userName, password, userAgent);
-    if (user == 404) return res.render('home', { errorMessage: "User not fount" })
-    if (user == 400) return res.render('home', { errorMessage: "Password not match" })
-    req.session.user = user;
-    res.redirect('/employeeData/Employees');
-  } catch (error) {
-    res.status(500).render('500', { message: `I'm sorry, but we have encountered the following error: ${error}` })
-  }
-})
 
 Data.get('/userHistory', ensureLogin, (req, res) => {
   let user = req.session?.user;
