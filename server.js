@@ -11,8 +11,8 @@ const bodyParser = require('body-parser');
 const clientSessions = require('client-sessions');
 
 Data.use(bodyParser())
-EmployeeData.Initialize()
-.then(authData.initialize)
+authData.initialize
+.then(EmployeeData.Initialize())
 .then(function(){
     Data.listen(HTTP_PORT, function(){
         console.log(`Data listening on:  ${HTTP_PORT}`);
@@ -21,7 +21,6 @@ EmployeeData.Initialize()
     console.log(`unable to start server: ${err}`);
 });
 
-EmployeeData.Initialize();
 
 Data.use((req, res, next) => {
   Data.locals.currentRoute = req.path;
