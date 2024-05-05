@@ -1,32 +1,54 @@
 <link rel="stylesheet" href="/css/main.css" />
 
 <nav class="w-full px-8 py-2">
-
+    
     <a class="text-gray text-2xl font-bold px-6 <%= (page == "/about") ? 'active' : '' %>" href="/about">About</a>
     <a class="text-gray text-2xl font-bold px-6 <%= (page == "/employeeData/Employees") ? 'active' : '' %>" href="/employeeData/Employees">Employees</a>
+    <a class="text-gray text-2xl font-bold px-6 <%= (page == "/employeeData/addEmployees") ? 'active' : '' %>" href="/employeeData/addEmployees">Add Employees</a>
+    <a class="text-gray text-2xl font-bold px-6 <%= (page == "/UserHistory") ? 'active' : '' %>" href="/UserHistory">UserHistory</a>
     
-    <% if (session && session.user) { %>
-        <a class="text-gray text-2xl font-bold px-6 <%= (page == "/employeeData/addEmployees") ? 'active' : '' %>" href="/employeeData/addEmployees">Add Employees</a>
-        <a class="text-gray text-2xl font-bold px-6 <%= (page == "/UserHistory") ? 'active' : '' %>" href="/UserHistory">UserHistory</a>
-        <a class="text-gray text-2xl font-bold px-6" href="/logout">Logout</a>
-    <% } else { %>
-        <div class="relative inline-block text-left">
-            <button type="button" class="text-gray text-2xl font-bold px-6 focus:outline-none" id="account-menu">
-                Account
-            </button>
-            <div class="hidden absolute right-0 mt-2 py-1 bg-gray-900 text-white rounded shadow-lg" id="account-dropdown">
-                <a href="/" class="block px-4 py-1 hover:bg-gray-800">Login</a>
-                <a href="/register" class="block px-4 py-1 hover:bg-gray-800">Register</a>
-            </div>
-        </div>      
-    <% } %>
-    <script>
-       document.getElementById('account-menu').addEventListener('click', function() {
-    var dropdown = document.getElementById('account-dropdown');
-    if (dropdown.classList.contains('hidden')) {
-        dropdown.classList.remove('hidden');
-    } else {
-        dropdown.classList.add('hidden');
-    }
-}); </script>
+    <a class="text-gray text-2xl font-bold px-6" href="/logout">Logout</a>
+  
+    <div class="relative inline-block text-left">
+        <button type="button" class="text-gray text-2xl font-bold px-6 focus:outline-none" id="account-menu">
+            Account
+        </button>
+        <a><span id="moonIcon" class="icon visible"></span>
+            <button id="toggler" onclick="toggleMode()">🌙</button>
+            <span id="sunIcon" class="icon hidden"></span></a>
+        <div class="hidden absolute right-0 mt-2 py-1 bg-gray-900 text-white rounded shadow-lg" id="account-dropdown">
+            <a href="/" class="block px-4 py-1 hover:bg-gray-800">Login</a>
+            <a href="/register" class="block px-4 py-1 hover:bg-gray-800">Register</a>
+        </div>
+    </div>
 </nav>
+
+<script>
+    document.getElementById('account-menu').addEventListener('click', function() {
+        var dropdown = document.getElementById('account-dropdown');
+        if (dropdown.classList.contains('hidden')) {
+            dropdown.classList.remove('hidden');
+        } else {
+            dropdown.classList.add('hidden');
+        }
+    });
+    function toggleMode() {
+    const html = document.documentElement;
+    const sunIcon = document.getElementById("sunIcon");
+    const moonIcon = document.getElementById("moonIcon");
+    const button = document.getElementById("toggler");
+
+    if (html.getAttribute("data-theme") === "light") {
+        html.setAttribute("data-theme", "dark");
+        sunIcon.classList.add("hidden");
+        moonIcon.classList.remove("hidden");
+        button.textContent = "🌙"; 
+    } else {
+        html.setAttribute("data-theme", "light");
+        html.classList.remove("dark-mode");
+        sunIcon.classList.remove("hidden");
+        moonIcon.classList.add("hidden");
+        button.textContent = "☀️"; 
+    }
+}
+</script>
